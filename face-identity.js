@@ -3,10 +3,11 @@ const classifier = new cv.CascadeClassifier(cv.HAAR_FRONTALFACE_ALT2);
 const fs = require('fs')
 const _ = require('lodash');
 const path = require('path');
+const glob = require('glob');
 const Recognizers = {
     lbph: new cv.LBPHFaceRecognizer(),
-    eigen = new cv.EigenFaceRecognizer(),
-    fisher = new cv.FisherFaceRecognizer()
+    eigen :new cv.EigenFaceRecognizer(),
+    fisher : new cv.FisherFaceRecognizer()
 }
 module.exports = {
     FaceDetectLabeledSetSync: () => {
@@ -17,20 +18,20 @@ module.exports = {
         const personNames = [];
         const images = [];
         const imageLabel = [];
-        const matrixArray = [];
-        const trainingLabelArray = [];
+        let matrixArray = [];
+        let trainingLabelArray = [];
         const captureImageFileName = DIR + '/temp.jpeg';
-        fs.writeFileSync(captureImageFileName, CurrentBase64, 'base64');
+        fs.writeFileSync(captureImageFileName, CurrentBase64.replace(/^data:image\/jpeg;base64,/, ""), 'base64');
         _.each(files, (currentFile) => {
             const dirCheck = DIR + "/" + currentFile;
             if (fs.statSync(dirCheck).isDirectory()) {
                 const subDirectory = fs.readdirSync(dirCheck);
                 if (subDirectory && subDirectory.length > 0) {
-                    personNames.push(file);
+                    personNames.push(currentFile);
                     imageLabel.push(subDirectory);
-                    const imagePath = __dirname + DIR + '/' + currentFile + '/';
+                    const imagePath =DIR + '/' + currentFile + '/';
                     images.push(subDirectory
-                        .map(file => path.resolve(imagePath, currentFile))
+                        .map(file => path.resolve(imagePath, file))
                         .map(filePath => cv.imread(filePath))
                         .map(img => img.bgrToGray())
                         .map(getFaceImage)
@@ -43,9 +44,10 @@ module.exports = {
             const trainingLabel = imageLabel[index]
                 .map(file => personNames.findIndex(name => file.includes(name)));
             matrixArray = [...matrixArray, ...matrix];
-            trainingLabelArray = [...trainingLabelAR, ...trainingLabel]; 
+            trainingLabelArray = [...trainingLabelArray, ...trainingLabel]; 
         });
         const currentImage = getFaceImage(cv.imread(captureImageFileName).bgrToGray()).resize(80, 80);
+        Recognizers[SelectedRecognizer].train(matrixArray, trainingLabelArray);
         const prediction = Recognizers[SelectedRecognizer].predict(currentImage);
         return {
             Name:personNames[prediction.label],
@@ -68,9 +70,6 @@ module.exports = {
     }
 }
 
-const probability = () => {
-
-}
 
 
 const getFaceImage = (grayImg) => {
