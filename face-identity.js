@@ -12,7 +12,7 @@ const Recognizers = {
     fisher: new cv.FisherFaceRecognizer()
 }
 module.exports = {
-    FaceDetectFS: (DIR, CurrentBase64, SelectedRecognizer) => {
+    FaceDetectFS: (DIR, MatchImageBase64, SelectedRecognizer) => {
         const files = fs.readdirSync(DIR);
         const personNames = [];
         const images = [];
@@ -20,7 +20,7 @@ module.exports = {
         let matrixArray = [];
         let trainingLabelArray = [];
         const captureImageFileName = DIR + '/temp.jpeg';
-        fs.writeFileSync(captureImageFileName, CurrentBase64.replace(/^data:image\/jpeg;base64,/, ""), 'base64');
+        fs.writeFileSync(captureImageFileName, MatchImageBase64.replace(/^data:image\/jpeg;base64,/, ""), 'base64');
         _.each(files, (currentFile) => {
             const dirCheck = DIR + "/" + currentFile;
             if (fs.statSync(dirCheck).isDirectory()) {
@@ -56,11 +56,11 @@ module.exports = {
         };
 
     },
-    FaceDetectFSSearch: (SearchDIR, PersonNames, CurrentBase64, SelectedRecognizer) => {
+    FaceDetectFSSearch: (SearchDIR, PersonNames, MatchImageBase64, SelectedRecognizer) => {
         const images = [];
         let trainingLabelArray = [];
         const captureImageFileName = SearchDIR + `/${uuid.v1()}.jpeg`;
-        fs.writeFileSync(captureImageFileName, CurrentBase64.replace(/^data:image\/jpeg;base64,/, ""), 'base64');
+        fs.writeFileSync(captureImageFileName, MatchImageBase64.replace(/^data:image\/jpeg;base64,/, ""), 'base64');
         const PNames=PersonNames.sort();
         const searchList = [...PNames, ..._.map(PNames, name => name.toLowerCase())].join(",");
         const imageTrainingSet = glob.sync(`${SearchDIR}/*{${searchList}}*.{${imageTypes}}`);

@@ -4,3 +4,4 @@ test.js
 .vscode/
 face-recognition/
 base64Ext.txt
+.npmignore
