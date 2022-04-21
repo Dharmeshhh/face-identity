@@ -1,7 +1,20 @@
+
+
+![face-identity](https://raw.githubusercontent.com/Dharmeshhh/face-identity/master/FaceIdentity.png)
+
+* **[INTRODUCTION](#introduction)**
+* **[INSTALLATION](#installation)**
+* **[METHODS and Examples](#methods)**
+
+<a name="introduction"></a>
+
 # INTRODUCTION
     This package is to identify person faces by giving training images and test images. It is simple library.
     This library require installation of opencv in your system.<b><a href="https://www.npmjs.com/package/opencv4nodejs">opencv4nodejs</a></b>
-    
+
+
+<a name="installation"></a>    
+
 # INSTALLATION
     To install opencv4nodejs you need following dependency/installation to compile c++ library. FOR MORE DETAILS VISIT <b><a href="https://www.npmjs.com/package/opencv4nodejs">opencv4nodejs</a></b>
 
@@ -13,6 +26,7 @@
 
     In last step perform npm rebuild
 
+<a name="methods"></a>
 
 # METHODS and Examples
     Recognizer values (last parameter of function) *pass in lowercase*
