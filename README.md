@@ -31,7 +31,6 @@ In last step perform npm rebuild
 <a name="methods"></a>
 
 # METHODS/EXAMPLES
-
 Recognizer values (last parameter of function) *pass in lowercase*
 1.lbph
 2.eigen
