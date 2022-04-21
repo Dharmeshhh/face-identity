@@ -5,3 +5,4 @@ test.js
 face-recognition/
 base64Ext.txt
 .npmignore
+opencv4nodejs.txt
